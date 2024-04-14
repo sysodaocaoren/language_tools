@@ -1,0 +1,22 @@
+
+
+Qhqwgtalp9?V
+
+
+
+CREATE TABLE t_video_sanguo(
+
+	id int not null primary key AUTO_INCREMENT,
+
+	content varchar(100),
+	
+	start_time varchar(30),
+	 
+	endt_time  varchar(30),
+	
+    path varchar(500)	
+
+);
+
+
+insert into t_video_sanguo( content, start_time, end_time, path) value ('ceshi', '19:20:40'， '19:20:40'， 'd:/plan/text.txt')
