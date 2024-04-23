@@ -21,5 +21,5 @@ def resolve(srt_path):
     print(srt_text)
 
 if __name__ == "__main__":
-    path = "D:\\计划\\test.srt"
+    path = "Man Crashes on Unknown Planet 💥🤯⁉️⚠️ ｜ Movie Explained in Hindi & Urdu [YWh0c5Kj7mM].en.srt"
     resolve(path)

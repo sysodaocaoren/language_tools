@@ -3,3 +3,7 @@
 自动生成视频(可以试试): https://github.com/SCUTlihaoyu/open-chat-video-editor
 
 提取文字客户端：http://www.kkx.net/soft/119001.html
+
+下载字幕的命令： yt-dlp --write-auto-subs --sub-format srt --sub-lang en --skip-download https://www.youtube.com/watch?v=YannKeZskGM
+
+字幕转换的命令: python vtt2srt.py -i ./ -o ./
