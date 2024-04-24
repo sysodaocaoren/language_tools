@@ -7,3 +7,5 @@
 下载字幕的命令： yt-dlp --write-auto-subs --sub-format srt --sub-lang en --skip-download https://www.youtube.com/watch?v=YannKeZskGM
 
 字幕转换的命令: python vtt2srt.py -i ./ -o ./
+
+音频翻译：https://github.com/AiShangmeili/Translate-Subtitle-File/
