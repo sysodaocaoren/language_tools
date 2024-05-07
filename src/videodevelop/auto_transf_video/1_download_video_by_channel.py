@@ -6,10 +6,11 @@ import os
 from pytube import YouTube
 import subprocess
 import trans_utils
+import trans_config
 
 def list_videos(play_list_url):
     playlist = Playlist(play_list_url)
-    path = "D:\\auto_trnas_video\\origin_video\\"
+    path = trans_config.params["path_step1"]
     for url in playlist:
         try:
             video_id = url.split('v=')[-1]

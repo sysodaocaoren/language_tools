@@ -12,6 +12,10 @@ def save_to_json(data, file_name):
         # 使用json.dump()函数将序列化后的JSON格式的数据写入到文件中
         json.dump(data, f, indent=4)
 
+def get_from_json (file_name):
+    with open('example.json', 'r') as file:
+        return json.load(file)
+
 
 def trans(text, target_language="zh", *, set_p=True,inst=None,stop=0,source_code=None):
     """
