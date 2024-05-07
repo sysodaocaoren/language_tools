@@ -4,7 +4,7 @@
 
 提取文字客户端：http://www.kkx.net/soft/119001.html
 
-下载字幕的命令： yt-dlp --write-auto-subs --sub-format srt --sub-lang en --skip-download https://www.youtube.com/watch?v=YannKeZskGM
+下载字幕的命令： yt-dlp --write-auto-subs --sub-format srt --sub-lang en --skip-download https://www.youtube.com/watch?v=W4QmDg517tk
 
 字幕转换的命令: python vtt2srt.py -i ./ -o ./
 
