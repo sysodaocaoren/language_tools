@@ -180,9 +180,9 @@ def covert(file_path):
     filenames = [fn for fn in os.listdir(file_path)
                  if fn[-4:].lower() in SUPPORTED_EXTENSIONS]
     for fn in filenames:
-        with codecs.open("{}/{}".format(a.input, fn), 'rb', "utf-8") as f:
+        with codecs.open("{}/{}".format(file_path, fn), 'rb', "utf-8") as f:
             text = f.read()
-        with codecs.open("{}/{}.srt".format(a.output, fn[:-4]), 'wb', "utf-8") as f:
+        with codecs.open("{}/{}.srt".format(file_path, fn[:-4]), 'wb', "utf-8") as f:
             f.write(to_srt(text, fn[-4:]))
 
 def main():

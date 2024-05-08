@@ -1,0 +1,12 @@
+WARNING:py.warnings:G:\env\python-3.10\lib\site-packages\moviepy\video\io\ffmpeg_reader.py:123: UserWarning: Warning: in file D:\auto_trnas_video\resolve_step2\1Amuli4GlLs\Code 8 Part I+II (2024) Film Explained in HindiUrdu Summarized हिन्दी  Fantasy.mp4, 2764800 bytes wanted but 0 bytes read,at frame 34109/34110, at time 1364.36/1364.38 sec. Using the last valid frame instead.
+  warnings.warn("Warning: in file %s, "%(self.filename)+
+
+WARNING:py.warnings:G:\env\python-3.10\lib\site-packages\moviepy\video\io\ffmpeg_reader.py:123: UserWarning: Warning: in file D:\auto_trnas_video\resolve_step2\1Amuli4GlLs\Code 8 Part I+II (2024) Film Explained in HindiUrdu Summarized हिन्दी  Fantasy.mp4, 2764800 bytes wanted but 0 bytes read,at frame 34109/34110, at time 1364.36/1364.38 sec. Using the last valid frame instead.
+  warnings.warn("Warning: in file %s, "%(self.filename)+
+
+WARNING:py.warnings:G:\env\python-3.10\lib\site-packages\moviepy\video\io\ffmpeg_reader.py:123: UserWarning: Warning: in file D:\auto_trnas_video\resolve_step2\1Amuli4GlLs\Code 8 Part I+II (2024) Film Explained in HindiUrdu Summarized हिन्दी  Fantasy.mp4, 2764800 bytes wanted but 0 bytes read,at frame 34109/34110, at time 1364.36/1364.38 sec. Using the last valid frame instead.
+  warnings.warn("Warning: in file %s, "%(self.filename)+
+
+WARNING:py.warnings:G:\env\python-3.10\lib\site-packages\moviepy\video\io\ffmpeg_reader.py:123: UserWarning: Warning: in file D:\auto_trnas_video\resolve_step2\1Amuli4GlLs\Code 8 Part I+II (2024) Film Explained in HindiUrdu Summarized हिन्दी  Fantasy.mp4, 2764800 bytes wanted but 0 bytes read,at frame 34109/34110, at time 1364.36/1364.38 sec. Using the last valid frame instead.
+  warnings.warn("Warning: in file %s, "%(self.filename)+
+

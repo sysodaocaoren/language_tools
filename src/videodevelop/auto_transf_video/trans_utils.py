@@ -13,9 +13,19 @@ def save_to_json(data, file_name):
         json.dump(data, f, indent=4)
 
 def get_from_json (file_name):
-    with open('example.json', 'r') as file:
+    with open(file_name, 'r') as file:
         return json.load(file)
 
+
+def update_json_key(file_name, key, value):
+    # 读取JSON文件
+    with open(file_name, 'r') as file:
+        data = json.load(file)
+    # 修改值
+    data[key] = value  # 将age的值改为31
+    # 写回JSON文件
+    with open(file_name, 'w') as file:
+        json.dump(data, file, indent=4)
 
 def trans(text, target_language="zh", *, set_p=True,inst=None,stop=0,source_code=None):
     """
