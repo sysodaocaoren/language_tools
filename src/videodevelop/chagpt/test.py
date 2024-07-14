@@ -7,11 +7,33 @@ client = OpenAI(
     base_url="https://api.chatanywhere.tech/v1"
 )
 
+def read_file(file_path):
+    try:
+        with open(file_path, 'r', encoding="utf-8") as file:
+            content = file.read()
+        return content
+    except FileNotFoundError:
+        print("文件不存在")
+
+prompt = read_file("promt.txt")
+print(prompt)
 chat_completion = client.chat.completions.create(
     messages=[
         {
             "role": "user",
-            "content": "你是chatgpt吗",
+            "content": prompt,
+        }
+    ],
+    model="gpt-3.5-turbo",
+)
+
+print(chat_completion.choices[0].message.content)
+
+chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "haode",
         }
     ],
     model="gpt-3.5-turbo",
