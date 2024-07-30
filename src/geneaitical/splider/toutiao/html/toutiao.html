@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>getSig</title>
+    <script src="./acrawler.js"></script>
+</head>
+<body>
+    <p id="sigUrl"></p>
+</body>
+<script>
+
+    var channel = "3189398996" // 娱乐
+    // var channel = "3189398999" // 科技
+
+    function getSSSS(){
+        var time = new Date();
+        var str = "https://www.toutiao.com/api/pc/list/feed?channel_id="+channel+"&max_behot_time="+time.getTime()+"&offset=0&category=pc_profile_channel&client_extra_params=%7B%22short_video_item%22:%22filter%22%7D&aid=24&app_name=toutiao_web"
+        var sig = window.byted_acrawler.sign({url:str})
+
+        var url = str+"&_signature="+sig;
+        document.getElementById("sigUrl").innerText = url
+        console.log(url);
+    }
+
+    getSSSS();
+
+    setInterval(function(){
+        getSSSS();
+    },30000)
+
+</script>
+</html>
