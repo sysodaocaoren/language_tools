@@ -111,8 +111,7 @@ class JrttSpider:
         # 实现主要逻辑思路
         :return:
         """
-        with open('./news_pl.csv', 'a', encoding='utf-8-sig', newline="") as csvfile:
-            newsNames = ['title', 'abstract', '']
+        with open('news_pl.csv', 'a', encoding='utf-8-sig', newline="") as csvfile:
             fieldnames = ['news_title', 'user_id', 'user_name', 'pl_content', "pl_time"]
             write_dict = csv.DictWriter(csvfile, fieldnames=fieldnames)
             write_dict.writeheader()

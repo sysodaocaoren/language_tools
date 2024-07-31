@@ -18,7 +18,7 @@ def printData(result):
     table = tabulate(result, headers=headers,maxcolwidths=[None, None, None, 80], tablefmt='grid')
     print(table)
 def saveData(result):
-    with open('头条热榜.csv','w', encoding='utf-8', newline='') as file:
+    with open('头条热榜.csv', 'w', encoding='utf-8', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(result)
 def main( ):
