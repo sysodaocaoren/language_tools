@@ -1,0 +1,7 @@
+
+python绘图：
+https://blog.csdn.net/2301_82000445/article/details/137674852
+https://www.jb51.net/python/323040os9.htm
+
+生成词云：
+https://www.jb51.net/python/320589gbw.htm
