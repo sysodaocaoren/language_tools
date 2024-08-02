@@ -65,7 +65,6 @@ class JrttSpider:
         news_dict['group_id'] = json_str.get('group_id')
         # 提取新闻的摘要
         news_dict['abstract'] = json_str.get('abstract')
-        print(news_dict)
         return news_dict
 
     def paramsData2(self, news_dict):
@@ -91,7 +90,6 @@ class JrttSpider:
         :return:
         """
         json_str = resp.json()
-        print(json_str)
         for json in json_str.get('data'):
             create_time = time.localtime(json.get('comment').get('create_time'))
             Time = time.strftime("%Y-%m-%d %H:%M:%S", create_time)
@@ -117,6 +115,7 @@ class JrttSpider:
             write_dict.writeheader()
             # 1.构建params数据
             params = self.paramsData()
+            print(params)
             # 2.发送请求,获取响应
             response = self.parse_url(self.API_URL, params)
             if response.json() == None:
@@ -136,7 +135,6 @@ class JrttSpider:
                 news_pl_dict = {'news_title': news_dict.get('title')}
                 for pinglun_dict in pinglun_list:
                     news_pl_dict.update(pinglun_dict)
-                    print(news_pl_dict)
                     # 8.保存数据
                     write_dict.writerow(news_pl_dict)
 
