@@ -32,7 +32,7 @@ def getall(table_name):
 def insert_news(data):
     conn = POOL.connection(shareable=False)
     cursor = conn.cursor()
-    sql = "INSERT INTO t_news_info (`title`, `summry`, `user_id`, `create_time`, `news_id`, `source_type`)  VALUES (%s, %s, %s, %s, %s, %s)"
+    sql = "INSERT INTO t_news_info (`title`, `summry`, `user_id`, `create_time`, `news_id`, `source_type`,user_name, comment_count, vote_count)  VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
     cursor.execute(sql, data)
     # 提交事务
     conn.commit()

@@ -42,7 +42,7 @@ def get_news_by_keywords(keyword):
                 if (pl_json_str.get('data') is None or len(pl_json_str.get('data')) == 0):
                     continue
                 # 新闻入库
-                news_data = [news_dict['news_title'], news_dict['abstract'], news_dict['user_id'], TIMESTRF, new_id_remote, "toutiao"]
+                news_data = [news_dict['news_title'], news_dict['abstract'], news_dict['user_id'], TIMESTRF, new_id_remote, "toutiao","00", "0","0"]
                 newid = db_mysql.insert_news(news_data)
                 # 插入搜索
                 search_data = [keyword, newid, TIMESTRF]
