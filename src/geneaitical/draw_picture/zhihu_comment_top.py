@@ -13,4 +13,4 @@ def draw_zhihu_top(keyword):
         count = count + 1
 
 if __name__ == '__main__':
-    draw_zhihu_top("备注")
+    draw_zhihu_top("一句话生活")

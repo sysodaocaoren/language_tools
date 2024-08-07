@@ -140,4 +140,4 @@ def params_data_comment(newsid):
     return params2
 
 if __name__ == '__main__':
-    get_news_by_keywords("炭蛆病")
+    get_news_by_keywords("")

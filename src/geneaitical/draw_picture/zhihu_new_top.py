@@ -5,7 +5,7 @@ import db_mysql
 
 
 def draw_zhihu_top(keyword):
-    comment_list = db_mysql.getTopVoteNews("zhihu",5, keyword)
+    comment_list = db_mysql.getTopVoteNews("zhihu",1, keyword)
     count = 0
     for news_info in comment_list:
         print(news_info)
@@ -13,4 +13,4 @@ def draw_zhihu_top(keyword):
         count = count + 1
 
 if __name__ == '__main__':
-    draw_zhihu_top("备注")
+    draw_zhihu_top("一句话生活")

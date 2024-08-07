@@ -19,10 +19,10 @@ def w2p(text, name, cutline=True):
 
     # 转换文字为图片并保存为图片
     h = 26 * len(text.split("\n")) + 10
-    w = int(max_len * 19.5 + 10)
+    w = int(max_len * 19.5 + 30)
     im = Image.new("RGB", (w, h), (255, 255, 255))
     dr = ImageDraw.Draw(im)
-    fpath = "D:\planself\workspace\language_tools\src\\xk_font.TTF"
+    fpath = "D:\planself\workspace\language_tools\src\\方正楷体简体.TTF"
     font = ImageFont.truetype(fpath, 20)
     dr.text((5, 5), text, font=font, fill="#000000")
 

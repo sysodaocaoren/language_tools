@@ -102,3 +102,21 @@ def get_comment_by_newsid(newsid):
     cursor.close()
     conn.close()
     return result
+
+def getTopVoteNews(type, limit, keyword):
+    conn = POOL.connection(shareable=False)
+    cursor = conn.cursor()
+    cursor.execute("select summry from t_news_info where source_type = '"+ type +"' and id in (select news_id from t_serch_info where keyword like '"+keyword+"%') and summry not like '%图片%' and summry not like '%…%' order by vote_count desc limit " + str(limit))
+    result = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return result
+
+def getTopVoteComment(type, limit, keyword):
+    conn = POOL.connection(shareable=False)
+    cursor = conn.cursor()
+    cursor.execute("select DISTINCT cm.content from t_comment_info cm , t_news_info ns , t_serch_info ts where ts.news_id=ns.id and cm.news_id=ns.news_id and ns.source_type='"+type+"' and ts.keyword='"+keyword+"' and cm.content not like '%[图片]%' and  cm.content not like '%…%' order by zan_num desc limit " + str(limit))
+    result = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return result
