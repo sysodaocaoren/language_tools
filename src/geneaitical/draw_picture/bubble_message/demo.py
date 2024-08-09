@@ -5,6 +5,10 @@ from PyQt5.QtWidgets import QLabel, QWidget, QVBoxLayout, QApplication
 from bubble_message import BubbleMessage, ChatWidget,MessageType,Notice
 
 
+from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtGui import QPixmap, QPainter
+from PyQt5.QtCore import QRect, Qt
+
 
 class Test(QWidget):
     def __init__(self):
@@ -72,16 +76,33 @@ class Test(QWidget):
         print('滚动条最大值', self.w1.verticalScrollBar().maximum())
 
 
+def save_widget_as_image(widget, filename):
+    # 获取widget的尺寸
+    rect = widget.frameGeometry()
+    # 获取屏幕尺寸
+    screen = QPixmap(rect.size())
+
+    # 在离屏绘图
+    screen.fill(widget.palette().window().color())
+    painter = QPainter(screen)
+    widget.render(painter)
+    painter.end()
+
+    # 保存图片
+    screen.save(filename, "PNG")
+
 if __name__ == '__main__':
     app = QApplication([])
     widget = Test()
     widget.w1.update()
     # widget = MyWidget()
-    widget.w1.verticalScrollBar().setValue(200)
+    widget.w1.verticalScrollBar().setValue(0)
     print('滚动条最大值002', widget.w1.verticalScrollBar().maximum())
+
     widget.show()
+    save_widget_as_image(widget, 'test000002.png')
     # QThread.sleep(2)
-    widget.w1.verticalScrollBar().setValue(200)
+    # widget.w1.verticalScrollBar().setValue(200)
     # widget.w1.verticalScrollBar().setValue(200)
     # widget.w1.verticalScrollBar().setValue(200)
 
