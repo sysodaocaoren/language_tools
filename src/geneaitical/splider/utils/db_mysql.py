@@ -106,7 +106,7 @@ def get_comment_by_newsid(newsid):
 def getTopVoteNews(type, limit, keyword):
     conn = POOL.connection(shareable=False)
     cursor = conn.cursor()
-    cursor.execute("select summry from t_news_info where source_type = '"+ type +"' and id in (select news_id from t_serch_info where keyword like '"+keyword+"%') and summry not like '%图片%' and summry not like '%…%' order by vote_count desc limit " + str(limit))
+    cursor.execute("select summry, user_name, vote_count, comment_count, create_time from t_news_info where source_type = '"+ type +"' and id in (select news_id from t_serch_info where keyword like '"+keyword+"%') and summry not like '%图片%' and summry not like '%…%' order by (vote_count + comment_count) desc limit " + str(limit))
     result = cursor.fetchall()
     cursor.close()
     conn.close()

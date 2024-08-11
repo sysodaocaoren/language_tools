@@ -3,7 +3,7 @@ import time
 import sys
 import os
 import pandas as pd
-sys.path.append("D:\planself\workspace\language_tools\src\geneaitical\splider\\utils")
+sys.path.append("G:\workspace\language_tools\src\geneaitical\splider\\utils")
 import db_mysql
 
 
@@ -156,4 +156,4 @@ def spilder_comment(answer_id):
             print("捕获到comment异常：", str(e))
 
 if __name__ == '__main__':
-    start_spilder("一句话生活","api/v4/questions/55060176/feeds/1723020722413080857")
+    start_spilder("最想对前任说的话","api/v4/questions/26577534/feeds/1723386300726546378")
