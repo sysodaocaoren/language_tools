@@ -3,7 +3,7 @@ import time
 import sys
 import os
 import pandas as pd
-sys.path.append("G:\workspace\language_tools\src\geneaitical\splider\\utils")
+sys.path.append("D:\planself\workspace\language_tools\src\geneaitical\splider\\utils")
 import db_mysql
 
 
@@ -40,7 +40,7 @@ def start_spilder(keyword, path):
     ans_url = 'https://www.zhihu.com/' + path
     for page in range(1, 200):
         try:
-            time.sleep(1)
+            time.sleep(2)
             ans_repo = requests.get(ans_url, headers=headers, cookies=cookies)
             if (ans_repo.json()['data'] is None or len(ans_repo.json()['data']) == 0):
                 break
@@ -65,7 +65,7 @@ def start_spilder(keyword, path):
                     search_data = [keyword, newid, TIMESTRF]
                     db_mysql.insert_search(search_data)
                     # 处理评论
-                    spilder_comment(answer_id)
+                    #spilder_comment(answer_id)
                 except Exception as e:
                     print("捕获到comment异常：", str(e))
         except Exception as e:
@@ -156,4 +156,4 @@ def spilder_comment(answer_id):
             print("捕获到comment异常：", str(e))
 
 if __name__ == '__main__':
-    start_spilder("最想对前任说的话","api/v4/questions/26577534/feeds/1723386300726546378")
+    start_spilder("最惊艳的名字","api/v4/questions/268450915/feeds/1723453136788332769")
