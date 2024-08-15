@@ -156,4 +156,4 @@ def spilder_comment(answer_id):
             print("捕获到comment异常：", str(e))
 
 if __name__ == '__main__':
-    start_spilder("最惊艳的名字","api/v4/questions/268450915/feeds/1723453136788332769")
+    start_spilder("一句话证明你看过奥运会","api/v4/questions/662701637/feeds/1723625759848093709")

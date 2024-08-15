@@ -7,15 +7,15 @@ import datetime
 from faker import Faker
 
 def draw_zhihu_top(keyword):
-    news_list = db_mysql.getTopVoteNews("zhihu",30, keyword)
+    news_list = db_mysql.getTopVoteNews("zhihu",50, keyword)
     count = 0
     printFlag = False
     data = {}
     for news_info in news_list:
-        print(news_info)
+        print('[' + str(count) + ']' + news_info[0])
         if printFlag == False:
             data['news'] = news_info[0]
-            data['name'] = keyword +'_' + str(count)
+            data['name'] = keyword +'_' + str(count + 40)
             data['new_time'] = random_datetime()
             data['new_location'] = random_chinese_province()
             data['vote_count'] = str(news_info[2])
@@ -24,7 +24,7 @@ def draw_zhihu_top(keyword):
                 data['comment_count'] = str(news_info[3])
             else:
                 data['comment_count'] = int(random.random() * 250)
-            draw_pic.niuComment2(data)
+            draw_pic.niuComment(data)
             data = {}
         # else:
         #     comment = {}
@@ -56,8 +56,7 @@ def random_datetime():
     fake = Faker()
     random_date = fake.date_time_between(start_date="-3y", end_date="now")
     time_str = random_date.strftime("%Y-%m-%d")
-    print(time_str)
     return time_str
 
 if __name__ == '__main__':
-    draw_zhihu_top("最惊艳的名字")
+    draw_zhihu_top("一句话概括人生")

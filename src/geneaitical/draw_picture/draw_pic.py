@@ -43,10 +43,10 @@ def niuComment(data):
     w = int(word_num_line * 19.5 + 35)
     im = Image.new("RGB", (w, all_h), (230, 240, 230))
     dr = ImageDraw.Draw(im)
-    font = ImageFont.truetype(xingkai, 20)
+    font = ImageFont.truetype(simkai, 20)
     dr.text((5, 5), news_text, font=font, fill="#000000")
     # 发布时间地点
-    create_time_font = ImageFont.truetype(simkai, 15)
+    create_time_font = ImageFont.truetype(sihei, 15)
     dr.text((8, new_h), str(new_time) + " . " + new_location, font=create_time_font, fill="#808080")
     dr.text((w - 200, new_h), '回复('+str(new_comment_count)+')  点赞('+str(news_vote_count)+')', font=create_time_font, fill="#808080")
     if (comment_flag == True):
