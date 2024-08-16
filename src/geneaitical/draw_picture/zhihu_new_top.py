@@ -7,7 +7,7 @@ import datetime
 from faker import Faker
 
 def draw_zhihu_top(keyword):
-    news_list = db_mysql.getTopVoteNews("zhihu",50, keyword)
+    news_list = db_mysql.getTopVoteNews("zhihu",15, keyword)
     count = 0
     printFlag = False
     data = {}
@@ -59,4 +59,4 @@ def random_datetime():
     return time_str
 
 if __name__ == '__main__':
-    draw_zhihu_top("一句话概括人生")
+    draw_zhihu_top("从小有个扫兴的父母什么体验")

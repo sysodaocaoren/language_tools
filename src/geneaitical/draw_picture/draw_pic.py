@@ -5,7 +5,7 @@ import textwrap
 home_path = 'D:\planself\workspace\language_tools\src'
 # home_path = 'G:\workspace\language_tools\src'
 
-word_num_line = 25
+word_num_line = 20
 news_font_path = home_path + "\\STXINWEI.TTF"
 xingkai = home_path + "\\STXINGKA.TTF"
 fangzheng = home_path + "\\FZSTK.TTF"
@@ -38,12 +38,12 @@ def niuComment(data):
         comment_h = -20
 
     # 处理正文的图片
-    new_h = 25 * len(news_text.split("\n")) + 5
-    all_h = 25 * len(news_text.split("\n")) + comment_h + 40 + 20
-    w = int(word_num_line * 19.5 + 35)
+    new_h = 27 * len(news_text.split("\n")) + 5
+    all_h = 27 * len(news_text.split("\n")) + comment_h + 40 + 20
+    w = int(word_num_line * 25+ 35)
     im = Image.new("RGB", (w, all_h), (230, 240, 230))
     dr = ImageDraw.Draw(im)
-    font = ImageFont.truetype(simkai, 20)
+    font = ImageFont.truetype(simkai, 25)
     dr.text((5, 5), news_text, font=font, fill="#000000")
     # 发布时间地点
     create_time_font = ImageFont.truetype(sihei, 15)
@@ -91,12 +91,12 @@ def niuComment2(data):
         comment_h = -20
 
     # 处理正文的图片
-    new_h = 25 * len(news_text.split("\n")) + 5
-    all_h = 25 * len(news_text.split("\n")) + comment_h + 40 + 20
+    new_h = 27 * len(news_text.split("\n")) + 5
+    all_h = 27 * len(news_text.split("\n")) + comment_h + 40 + 20
     w = int(word_num_line * 19.5 + 35)
     im = Image.new("RGB", (w, all_h), (60, 60, 60))
     dr = ImageDraw.Draw(im)
-    font = ImageFont.truetype(youyuan, 20)
+    font = ImageFont.truetype(news_font_path, 25)
     dr.text((5, 5), news_text, font=font, fill="#ffffff")
     # 发布时间地点
     create_time_font = ImageFont.truetype(simkai, 15)

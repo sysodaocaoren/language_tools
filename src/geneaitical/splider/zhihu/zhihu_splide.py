@@ -1,10 +1,11 @@
 import requests
 import time
 import sys
-import os
+import random
 import pandas as pd
 sys.path.append("D:\planself\workspace\language_tools\src\geneaitical\splider\\utils")
 import db_mysql
+from bs4 import BeautifulSoup
 
 
 headers = {
@@ -35,12 +36,12 @@ headers_comment = {
 }
 printFlag = 0
 TIMESTRF = int(time.time()) * 1000
-def start_spilder(keyword, path):
+def start_spilder(keyword, qusId,  path):
     global printFlag
     ans_url = 'https://www.zhihu.com/' + path
     for page in range(1, 200):
         try:
-            time.sleep(2)
+            time.sleep(random.randint(1, 3))
             ans_repo = requests.get(ans_url, headers=headers, cookies=cookies)
             if (ans_repo.json()['data'] is None or len(ans_repo.json()['data']) == 0):
                 break
@@ -52,7 +53,7 @@ def start_spilder(keyword, path):
                     # resolve ans
                     answer_id = data['target']['id']
                     title = keyword
-                    summary= data['target']['excerpt']
+                    summary= getAnsDetail(qusId, str(answer_id))
                     vote_count = data['target']['voteup_count']
                     comment_count = data['target']['comment_count']
                     user_name=data['target']['author']['name']
@@ -87,6 +88,19 @@ def tran_gender(gender_tag):
         return '女'
     else:  # -1
         return '未知'
+
+def getAnsDetail(quetionId, ansId):
+    url_ans = 'https://www.zhihu.com/question/'+quetionId+'/answer/' + ansId
+    time.sleep(random.randint(1, 3))
+    response = requests.get(url_ans, headers=headers_comment)
+    if response.status_code == 200:
+        html_content = response.text
+        soup = BeautifulSoup(html_content, 'html.parser')
+        content = soup.find('div', class_='RichContent-inner').get_text()
+        return content
+    else:
+        print("请求失败，状态码：", response.status_code)
+        return ''
 
 
 def spilder_comment(answer_id):
@@ -156,4 +170,4 @@ def spilder_comment(answer_id):
             print("捕获到comment异常：", str(e))
 
 if __name__ == '__main__':
-    start_spilder("一句话证明你看过奥运会","api/v4/questions/662701637/feeds/1723625759848093709")
+    start_spilder("从小有个扫兴的父母什么体验","640017081", "api/v4/questions/640017081/feeds/1723796953026687916")
