@@ -42,6 +42,19 @@ def insert_news(data):
     conn.close()
     return id
 
+def insert_zhihu(data):
+    conn = POOL.connection(shareable=False)
+    cursor = conn.cursor()
+    sql = "INSERT INTO `news`.`t_zhihu_info` (`keyword`, `question`, `answer`, `user_id`, `create_time`, `question_id`, `answer_id`, `source_type`, `comment_count`, `vote_count`, `user_name`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    cursor.execute(sql, data)
+    # 提交事务
+    conn.commit()
+    id = cursor.lastrowid
+    # 关闭游标和数据库连接
+    cursor.close()
+    conn.close()
+    return id
+
 def insert_comment(data):
     conn = POOL.connection(shareable=False)
     cursor = conn.cursor()

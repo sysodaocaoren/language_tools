@@ -52,19 +52,15 @@ def start_spilder(keyword, qusId,  path):
                         printFlag = 2
                     # resolve ans
                     answer_id = data['target']['id']
-                    title = keyword
-                    summary= getAnsDetail(qusId, str(answer_id))
+                    answer= getAnsDetail(qusId, str(answer_id))
                     vote_count = data['target']['voteup_count']
                     comment_count = data['target']['comment_count']
                     user_name=data['target']['author']['name']
                     user_id=data['target']['author']['id']
                     #保存数据库
-                    news_data = [title, summary, user_id, TIMESTRF, answer_id, "zhihu", user_name, comment_count, vote_count]
+                    news_data = [keyword, keyword, answer, user_id, TIMESTRF, qusId, answer_id, "zhihu", comment_count, vote_count, user_name]
                     print(news_data)
-                    newid = db_mysql.insert_news(news_data)
-                    # 插入搜索
-                    search_data = [keyword, newid, TIMESTRF]
-                    db_mysql.insert_search(search_data)
+                    newid = db_mysql.insert_zhihu(news_data)
                     # 处理评论
                     #spilder_comment(answer_id)
                 except Exception as e:
