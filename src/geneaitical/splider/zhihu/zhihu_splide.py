@@ -166,4 +166,4 @@ def spilder_comment(answer_id):
             print("捕获到comment异常：", str(e))
 
 if __name__ == '__main__':
-    start_spilder("从小有个扫兴的父母什么体验","640017081", "api/v4/questions/640017081/feeds/1723796953026687916")
+    start_spilder("一句话形容你现在的生活","55060176", "api/v4/questions/55060176/feeds/1724154910258711697")

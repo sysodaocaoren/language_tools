@@ -65,11 +65,11 @@ def draw3DPie(pie3dParams):
 # 词云图
 def drawCloudPic(report_words):
     # 建立颜色数组，可更改颜色
-    color_list = ['#FF274B', '#FFFF4B', '#FFF74B']
+    color_list = ['#FF0000', '#5959AB', '#00FFFF', '#FF00FF', '#3232CD', '#3299CC', '#FF6EC7' , '#4F2F4F' , '#FFFF00' , '#00FF00' ]
     # 调用颜色数组
     colormap = colors.ListedColormap(color_list)
     stopwords = set(STOPWORDS)
-    stopwords.update(["的", "感谢", "我代表", "以上", "报告", "表示诚挚感谢", "战略"])
+    stopwords.update(["的", "感谢", "我代表", "以上", "报告", "表示诚挚感谢", "战略", "，", "我", "的"])
     # 设置字体大小
     max_font_size = 200
     min_font_size = 10
@@ -78,11 +78,11 @@ def drawCloudPic(report_words):
     # 建立词汇字典
     content = dict(result)
     wordcloud = WordCloud(scale=4,  # 输出清晰度
-                          font_path='D:\planself\workspace\language_tools\src\\xk_font.TTF',  # 输出路径
+                          font_path='D:\planself\workspace\language_tools\src\\simkai.ttf',  # 输出路径
                           colormap=colormap,  # 字体颜色
                           width=1600,  # 输出图片宽度
                           height=900,  # 输出图片高度
-                          background_color='blue',  # 图片背景颜色
+                          background_color='white',  # 图片背景颜色
                           stopwords=stopwords,  # 停用词
                           # mask=mask,  # 掩膜
                           max_font_size=max_font_size,  # 最大字体大小
@@ -90,7 +90,7 @@ def drawCloudPic(report_words):
     wordcloud.generate_from_frequencies(content)
     # 使用 matplotlib 显示词云
     plt.imshow(wordcloud, interpolation='bilinear')
-    plt.axis('off')
+    plt.axis('on')
     plt.show()
     # 保存词云图
     wordcloud.to_file("wordcloud.png")
@@ -135,7 +135,7 @@ if __name__ == '__main__':
     pie3dParams['lables'] = ['男', '女', '不男不女']
     pie3dParams['sizes'] = [20, 30, 50]
     pie3dParams['title'] = '性别统计'
-    draw3DPie(pie3dParams)
+    #draw3DPie(pie3dParams)
 
     # 词云图
     report_words = ['男', '女', '不男不女','1','哈哈','男','哈哈','哈哈','哈哈','哈哈','哈哈','哈哈','哈哈','哈哈','哈哈', '1', '1']

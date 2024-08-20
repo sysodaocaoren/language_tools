@@ -1,16 +1,23 @@
 import sys
 import draw_pic
+sys.path.append("D:\planself\workspace\language_tools\src\geneaitical\chart")
+import draw_chart
 sys.path.append("D:\planself\workspace\language_tools\src\geneaitical\splider\\utils")
 import db_mysql
+sys.path.append("D:\planself\workspace\language_tools\src\geneaitical\emo")
+import emo_utils
 import random
 import datetime
 from faker import Faker
+import jieba
+
 
 def draw_zhihu_top(keyword):
-    news_list = db_mysql.getTopVoteNews("zhihu",15, keyword)
+    news_list = db_mysql.getTopZhihu("zhihu",200, keyword)
     count = 0
     printFlag = False
     data = {}
+    answerArray = []
     for news_info in news_list:
         print('[' + str(count) + ']' + news_info[0])
         if printFlag == False:
@@ -24,7 +31,12 @@ def draw_zhihu_top(keyword):
                 data['comment_count'] = str(news_info[3])
             else:
                 data['comment_count'] = int(random.random() * 250)
-            draw_pic.niuComment(data)
+            answer_split = jieba.cut(news_info[0])
+            ans_temp = ",".join(answer_split)
+            for str22 in ans_temp.split(","):
+                if emo_utils.emo_contain_flag(str22):
+                    answerArray.append(str22)
+            # draw_pic.niuComment(data)
             data = {}
         # else:
         #     comment = {}
@@ -37,7 +49,7 @@ def draw_zhihu_top(keyword):
         #     data={}
         #     printFlag = False
         count = count + 1
-
+    draw_chart.drawCloudPic(answerArray)
 def random_chinese_province():
     provinces = [
         '广东', '北京', '上海', '天津', '江苏', '浙江', '四川', '湖北', '湖南', '江西',
@@ -59,4 +71,4 @@ def random_datetime():
     return time_str
 
 if __name__ == '__main__':
-    draw_zhihu_top("从小有个扫兴的父母什么体验")
+    draw_zhihu_top("一句话形容你现在的生活")
