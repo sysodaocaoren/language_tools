@@ -57,8 +57,10 @@ def start_spilder(keyword, qusId,  path):
                     comment_count = data['target']['comment_count']
                     user_name=data['target']['author']['name']
                     user_id=data['target']['author']['id']
+                    create_time = data['target']['created_time']
+                    print(create_time)
                     #保存数据库
-                    news_data = [keyword, keyword, answer, user_id, TIMESTRF, qusId, answer_id, "zhihu", comment_count, vote_count, user_name]
+                    news_data = [keyword, keyword, answer, user_id, int(create_time), qusId, answer_id, "zhihu", comment_count, vote_count, user_name]
                     print(news_data)
                     newid = db_mysql.insert_zhihu(news_data)
                     # 处理评论
@@ -166,4 +168,4 @@ def spilder_comment(answer_id):
             print("捕获到comment异常：", str(e))
 
 if __name__ == '__main__':
-    start_spilder("一句话形容你现在的生活","55060176", "api/v4/questions/55060176/feeds/1724154910258711697")
+    start_spilder("如何看待黑神话悟空","415934275", "api/v4/questions/415934275/feeds/1724229893143898403")

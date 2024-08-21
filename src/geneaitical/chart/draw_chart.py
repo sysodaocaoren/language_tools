@@ -69,12 +69,12 @@ def drawCloudPic(report_words):
     # 调用颜色数组
     colormap = colors.ListedColormap(color_list)
     stopwords = set(STOPWORDS)
-    stopwords.update(["的", "感谢", "我代表", "以上", "报告", "表示诚挚感谢", "战略", "，", "我", "的"])
+    stopwords.update(["的", "感谢", "我代表", "以上", "报告", "表示诚挚感谢", "战略", "，", "我", "的","游戏"])
     # 设置字体大小
     max_font_size = 200
     min_font_size = 10
     # 统计高频词汇
-    result = Counter(report_words).most_common(200)  # 词的个数
+    result = Counter(report_words).most_common(300)  # 词的个数
     # 建立词汇字典
     content = dict(result)
     wordcloud = WordCloud(scale=4,  # 输出清晰度

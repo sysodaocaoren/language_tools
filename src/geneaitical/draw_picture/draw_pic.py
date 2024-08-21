@@ -59,10 +59,10 @@ def niuComment(data):
         dr.text((20, new_h + 44), comment_text, font=comment_font, fill="#000000")    # 存储图片到本地路径/w2p.png
     save_path = os.getcwd()
     if (os.path.exists(save_path)):
-        save_path = save_path + "/" + name + ".png"
+        save_path = save_path + "/picture/" + name + ".png"
     else:
         os.mkdir(save_path)
-        save_path = save_path + "/" + name + ".png"
+        save_path = save_path + "/picture/" + name + ".png"
     im.save(save_path)
 
 
