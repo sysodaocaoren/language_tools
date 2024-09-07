@@ -63,7 +63,7 @@ def draw3DPie(pie3dParams):
     plt.show()
 
 # 词云图
-def drawCloudPic(report_words):
+def drawCloudPic(report_words, out_path):
     # 建立颜色数组，可更改颜色
     color_list = ['#FF0000', '#5959AB', '#00FFFF', '#FF00FF', '#3232CD', '#3299CC', '#FF6EC7' , '#4F2F4F' , '#FFFF00' , '#00FF00' ]
     # 调用颜色数组
@@ -93,7 +93,7 @@ def drawCloudPic(report_words):
     plt.axis('on')
     plt.show()
     # 保存词云图
-    wordcloud.to_file("wordcloud.png")
+    wordcloud.to_file(out_path)
 
 if __name__ == '__main__':
     # 线图

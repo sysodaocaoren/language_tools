@@ -51,9 +51,9 @@ def cut_photo(photo,choice):
             cutted_photo = photo.crop((x, y, x + width, y + (int(width / 330 * 480))))
         return cutted_photo
 try:
-    photo = Image.open('阿豆.jpg')
+    photo = Image.open('阿豆02.jpg')
 except:
-    photo = Image.open('阿豆.png')
+    photo = Image.open('阿豆02.png')
 photo_1 = resize_photo(cut_photo(photo, 1), 1)
 width_px, height_px = photo_1.size
 txt = str(width_px) + '-' + str(height_px)

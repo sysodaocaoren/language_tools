@@ -142,3 +142,12 @@ def getTopZhihu(type, limit, keyword):
     cursor.close()
     conn.close()
     return result
+
+def getRandomZhihu(type, limit, keyword):
+    conn = POOL.connection(shareable=False)
+    cursor = conn.cursor()
+    cursor.execute("select answer, user_name, vote_count, comment_count, create_time from t_zhihu_info where source_type = '"+ type +"' and keyword like '"+keyword+"%' and answer not like '%图片%' and LENGTH(answer) < 800 ORDER BY RAND() LIMIT " + str(limit))
+    result = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return result
