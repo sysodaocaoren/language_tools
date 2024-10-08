@@ -34,15 +34,8 @@ for i in range(0, len(non_zero_pixels), step_size):
     for pixel in non_zero_pixels[i:i + step_size]:
         y, x = pixel
         canvas[y, x] = 0  # 将画布对应像素点置为黑色（即绘制出来）
-
     # 写入当前帧到视频
     out.write(canvas)
 
-    # 显示当前进度（可以注释掉以提升性能）
-    # cv2.imshow('Drawing', canvas)
-    # if cv2.waitKey(1) & 0xFF == ord('q'):
-    #     break
-
 # 释放视频资源
 out.release()
-# cv2.destroyAllWindows()
