@@ -53,7 +53,7 @@ def cut_photo(photo,choice):
 try:
     photo = Image.open('阿豆02.jpg')
 except:
-    photo = Image.open('阿豆02.png')
+
 photo_1 = resize_photo(cut_photo(photo, 1), 1)
 width_px, height_px = photo_1.size
 txt = str(width_px) + '-' + str(height_px)
@@ -67,32 +67,40 @@ width_px, height_px = photo_3.size
 txt = str(width_px) + '-' + str(height_px)
 print("小二寸比列：" + txt)
 # 6寸背景
-print_bg = background = Image.new('RGB', (1520, 1020), 'white')
+print_bg = background = Image.new('RGB', (1524, 1016), 'white')
 # 1寸证件照布局
-print_bg.paste(photo_1, (0, 100))
-print_bg.paste(photo_1, (254, 100))
-print_bg.paste(photo_1, (508, 100))
-print_bg.paste(photo_1, (762, 100))
-print_bg.paste(photo_1, (1016, 100))
-print_bg.paste(photo_1, (1270, 100))
+print_bg.paste(photo_1, (40, 50))
+print_bg.paste(photo_1, (314, 50))
+print_bg.paste(photo_1, (598, 50))
+print_bg.paste(photo_1, (882, 50))
+print_bg.paste(photo_1, (1146, 50))
 # 2寸证件照布局
-print_bg.paste(photo_2, (40, 500))
-print_bg.paste(photo_2, (430, 500))
+print_bg.paste(photo_1, (40, 440))
+print_bg.paste(photo_1, (314, 440))
+print_bg.paste(photo_1, (598, 440))
+print_bg.paste(photo_1, (882, 440))
+print_bg.paste(photo_1, (1146, 440))
+# print_bg.paste(photo_2, (40, 440))
+# print_bg.paste(photo_2, (405, 440))
+# print_bg.paste(photo_2, (770, 440))
+# print_bg.paste(photo_2, (1136, 440))
+
 # 小2寸证件照布局
-print_bg.paste(photo_3, (800, 500))
-print_bg.paste(photo_3, (1170, 500))
+# print_bg.paste(photo_3, (800, 500))
+# print_bg.paste(photo_3, (1170, 500))
 # 证件图框线
 draw = ImageDraw.Draw(print_bg)
-draw.rectangle((0, 100, 248, 450), outline='black', width=1)
-draw.rectangle((254, 100, 502, 450), outline='black', width=1)
-draw.rectangle((508, 100, 756, 450), outline='black', width=1)
-draw.rectangle((762, 100, 1010, 450), outline='black', width=1)
-draw.rectangle((1016, 100, 1264, 450), outline='black', width=1)
-draw.rectangle((1270, 100, 1518, 450), outline='black', width=1)
-draw.rectangle((40, 500, 390, 1000), outline='black', width=1)
-draw.rectangle((430, 500, 780, 1000), outline='black', width=1)
-draw.rectangle((800, 500, 1133, 980), outline='black', width=1)
-draw.rectangle((1170, 500, 1500, 980), outline='black', width=1)
+# draw.rectangle((30, 100, 248, 450), outline='black', width=0)
+# draw.rectangle((304, 100, 502, 450), outline='black', width=0)
+# draw.rectangle((588, 100, 756, 450), outline='black', width=0)
+# draw.rectangle((872, 100, 1010, 450), outline='black', width=0)
+# draw.rectangle((1146, 100, 1264, 450), outline='black', width=0)
+#
+# draw.rectangle((30, 500, 390, 1000), outline='black', width=0)
+# draw.rectangle((400, 500, 780, 1000), outline='black', width=0)
+# draw.rectangle((770, 500, 1133, 1000), outline='black', width=0)
+# draw.rectangle((1146, 500, 1523, 1000), outline='black', width=0)
+
 path = os.getcwd() + "/6寸混合证件照(画质优化).jpeg"
 enhancer = ImageEnhance.Sharpness(print_bg)
 print_bg = enhancer.enhance(2)

@@ -8,27 +8,44 @@ step_size = 200  # 每帧绘制的像素点数量，越大视频越短
 # 提高照片分辨率
 def ehance_image(image_path, image_path_ehance):
     image = Image.open(image_path)
-    # 先放大
-    resized_image = image.resize((1920, 1080))
+    # # 先放大
+    # resized_image = image.resize((1920, 1080))
     # 高清出来
-    enhancer = ImageEnhance.Sharpness(resized_image)
-    resized_image = enhancer.enhance(2)
-    resized_image.save(image_path_ehance)
+    enhancer = ImageEnhance.Sharpness(image)
+    image = enhancer.enhance(2)
+    image.save(image_path_ehance)
 
 # 将原始图片转为素描画
 def resolve_image_sumiao(image_path, target_path):
+    # 读取图片
     image = cv2.imread(image_path)
-    # 检查图片是否正确加载
-    if image is None:
-        print(f"Error: 当前图片加载失败 {image_path}")
+
     # 转换为灰度图像
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    inverted_image = 255 - gray_image
+
+    # 反转灰度图像
+    inverted_image = cv2.bitwise_not(gray_image)
+
+    # 减小模糊核的大小，减少模糊 (模糊核从21降为5)
     blurred = cv2.GaussianBlur(inverted_image, (21, 21), 0)
-    inverted_blurred = 255 - blurred
-    pencil_sketch = cv2.divide(gray_image, inverted_blurred, scale=256.0)
-    # 保存素描到文件
-    cv2.imwrite(target_path, pencil_sketch)
+
+    # 反转模糊图像
+    inverted_blurred = cv2.bitwise_not(blurred)
+
+    # 生成素描图像
+    sketch = cv2.divide(gray_image, inverted_blurred, scale=256.0)
+
+    # 增强对比度和细节
+    alpha = 1.0  # 对比度控制 (较高的对比度)
+    beta = 0  # 保持原始亮度
+    sketch = cv2.convertScaleAbs(sketch, alpha=alpha, beta=beta)
+
+    # 使用自适应直方图均衡化 (CLAHE) 增强图像对比度
+    clahe = cv2.createCLAHE(clipLimit=4.0, tileGridSize=(12, 12))
+    sketch = clahe.apply(sketch)
+
+    # 保存生成的素描图像
+    cv2.imwrite(target_path, sketch)
 
 def generate_diancai(image_path, vodeo_path):
     # 读取图片
@@ -71,7 +88,7 @@ if __name__ == '__main__':
     # 文件类型
     image_type = ".jpg"
     # 原始文件名称
-    image_name = "nverguo"
+    image_name = "xiyouji"
     # 原始文件路径
     image_path = image_name + image_type
     # 高清处理过的文件

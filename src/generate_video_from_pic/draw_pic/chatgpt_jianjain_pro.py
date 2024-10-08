@@ -28,7 +28,7 @@ def image_to_sketch(image_path):
 # Step 2: 逐步擦除蒙版以露出素描图像
 def reveal_sketch(sketch_img, video_output_path, contours, faces, fps=30):
     height, width = sketch_img.shape
-
+cd src
     # 创建一个全白的画布（蒙版）
     canvas = np.ones_like(sketch_img, dtype=np.uint8) * 255
 
