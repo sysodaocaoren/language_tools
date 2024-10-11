@@ -86,9 +86,14 @@ def draw_contour(canvas, edges, contour_ratio, points_per_frame_face):
         progress = (points_drawn / total_points) * 100
         print(f"绘制轮廓进度: {progress:.2f}% ({points_drawn}/{total_points})")
 
+    # 返回剩余的点
+    remaining_points = edge_points[num_points_to_draw:]
+    return remaining_points
+
 
 # 绘制详细部分
-def draw_detailed(canvas, edges, face_landmarks, drawing_ratio, points_per_frame_face, points_per_frame_non_face):
+def draw_detailed(canvas, edges, face_landmarks, remaining_points, drawing_ratio, points_per_frame_face,
+                  points_per_frame_non_face):
     print("开始绘制详细部分...")
     drawn_points = set()
 
@@ -167,21 +172,14 @@ def draw_detailed(canvas, edges, face_landmarks, drawing_ratio, points_per_frame
         canvas, drawn_points = draw_region(canvas, jaw, drawn_points, 'jaw', points_per_frame_face, edges, 'down')
         print("绘制面部轮廓完成")
 
-    # 绘制面部框外扩散区域
-    background_mask = np.ones_like(sketch_image) * 255
-    for landmarks in face_landmarks:
-        jaw = landmarks[0:17]
-        jaw_poly = np.array(jaw, np.int32)
-        cv2.fillConvexPoly(background_mask, jaw_poly, 0)
-
-    background_edge_points = np.column_stack(np.where((edges != 0) & (background_mask == 255)))
-    np.random.shuffle(background_edge_points)  # Shuffle to randomize order of drawing
+    # 使用剩余的点绘制面部框外扩散区域
+    np.random.shuffle(remaining_points)  # Shuffle to randomize order of drawing
 
     # 使用扩散算法绘制面部框外区域
     radius = 0
-    while len(background_edge_points) > 0:
+    while len(remaining_points) > 0:
         points_to_draw = []
-        for point in background_edge_points:
+        for point in remaining_points:
             y, x = point
             if any([abs(y - jaw_point[1]) <= radius and abs(x - jaw_point[0]) <= radius for jaw_point in jaw]):
                 if (y, x) not in drawn_points:
@@ -197,7 +195,7 @@ def draw_detailed(canvas, edges, face_landmarks, drawing_ratio, points_per_frame
                 drawn_points.add((y, x))
         video_writer.write(canvas)
         radius += 1
-        background_edge_points = [point for point in background_edge_points if (point[0], point[1]) not in drawn_points]
+        remaining_points = [point for point in remaining_points if (point[0], point[1]) not in drawn_points]
         print(f"绘制背景区域，半径：{radius}")
     print("绘制背景区域完成")
 
@@ -206,57 +204,73 @@ def draw_detailed(canvas, edges, face_landmarks, drawing_ratio, points_per_frame
 def color_regions(canvas, face_landmarks, original_image, edges, coloring_ratio, points_per_frame_face,
                   points_per_frame_non_face, coloring_speed_factor):
     print("开始上色...")
-    # 对面部区域上色
-    for landmarks in face_landmarks:
-        left_eye, right_eye, nose, mouth, jaw, left_eyebrow, right_eyebrow, left_ear, right_ear = get_face_region(
-            landmarks)
 
-        regions_to_color = [
-            ('left_eye', left_eye),
-            ('right_eye', right_eye),
-            ('nose', nose),
-            ('mouth', mouth),
-            ('jaw', jaw),
-            ('left_eyebrow', left_eyebrow),
-            ('right_eyebrow', right_eyebrow),
-            ('left_ear', left_ear),
-            ('right_ear', right_ear)
-        ]
-
-        for region_name, region_points in regions_to_color:
-            color_region(canvas, region_points, original_image, edges, coloring_speed_factor, coloring_ratio)
-            print(f"{region_name} 上色完成")
-
-    # 对面部框外区域上色
-    background_mask = np.ones_like(sketch_image) * 255
+    # 分离面部区域和非面部区域的点
+    face_points = []
+    non_face_points = []
     for landmarks in face_landmarks:
         jaw = landmarks[0:17]
         jaw_poly = np.array(jaw, np.int32)
-        cv2.fillConvexPoly(background_mask, jaw_poly, 0)
+        cv2.fillConvexPoly(edges, jaw_poly, 0)
 
-    non_face_points = np.column_stack(np.where((edges == 0) & (background_mask == 255)))
+    face_mask = np.zeros_like(edges)
+    non_face_mask = np.ones_like(edges) * 255
+    for landmarks in face_landmarks:
+        jaw = landmarks[0:17]
+        jaw_poly = np.array(jaw, np.int32)
+        cv2.fillConvexPoly(face_mask, jaw_poly, 255)
+        cv2.fillConvexPoly(non_face_mask, jaw_poly, 0)
+
+    # 获取面部区域的非边缘点
+    face_points = np.column_stack(np.where((edges == 0) & (face_mask == 255)))
+    np.random.shuffle(face_points)  # Shuffle to randomize order of coloring
+
+    # 获取非面部区域的非边缘点
+    non_face_points = np.column_stack(np.where((edges == 0) & (non_face_mask == 255)))
     np.random.shuffle(non_face_points)  # Shuffle to randomize order of coloring
 
-    # 选择50%的点进行上色
-    num_points_to_color = int(len(non_face_points) * coloring_ratio)
-    points_to_color = non_face_points[:num_points_to_color]
+    # 对面部区域上色
+    num_points_to_color_face = int(len(face_points) * coloring_ratio)
+    points_to_color_face = face_points[:num_points_to_color_face]
 
     # 每次上色的速度加快
-    points_per_frame_color = points_per_frame_non_face * coloring_speed_factor
+    points_per_frame_color_face = points_per_frame_face * coloring_speed_factor
 
     # 上色
-    points_colored = 0
-    total_points = len(points_to_color)
-    while points_colored < len(points_to_color):
-        frame_points = min(points_per_frame_color, len(points_to_color) - points_colored)
+    points_colored_face = 0
+    total_points_face = len(points_to_color_face)
+    while points_colored_face < len(points_to_color_face):
+        frame_points = min(points_per_frame_color_face, len(points_to_color_face) - points_colored_face)
         for i in range(frame_points):
-            point = points_to_color[points_colored + i]
+            point = points_to_color_face[points_colored_face + i]
             y, x = point
             canvas[y, x] = original_image[y, x]
         video_writer.write(canvas)
-        points_colored += frame_points
-        progress = (points_colored / total_points) * 100
-        print(f"上色进度: {progress:.2f}% ({points_colored}/{total_points})")
+        points_colored_face += frame_points
+        progress = (points_colored_face / total_points_face) * 100
+        print(f"面部区域上色进度: {progress:.2f}% ({points_colored_face}/{total_points_face})")
+
+    # 对非面部区域上色
+    num_points_to_color_non_face = int(len(non_face_points) * coloring_ratio)
+    points_to_color_non_face = non_face_points[:num_points_to_color_non_face]
+
+    # 每次上色的速度加快
+    points_per_frame_color_non_face = points_per_frame_non_face * coloring_speed_factor
+
+    # 上色
+    points_colored_non_face = 0
+    total_points_non_face = len(points_to_color_non_face)
+    while points_colored_non_face < len(points_to_color_non_face):
+        frame_points = min(points_per_frame_color_non_face, len(points_to_color_non_face) - points_colored_non_face)
+        for i in range(frame_points):
+            point = points_to_color_non_face[points_colored_non_face + i]
+            y, x = point
+            canvas[y, x] = original_image[y, x]
+        video_writer.write(canvas)
+        points_colored_non_face += frame_points
+        progress = (points_colored_non_face / total_points_non_face) * 100
+        print(f"非面部区域上色进度: {progress:.2f}% ({points_colored_non_face}/{total_points_non_face})")
+
     print("上色完成")
 
 
@@ -299,45 +313,14 @@ def draw_region(canvas, region_points, drawn_points, region_name, points_per_fra
     return canvas, drawn_points
 
 
-# 辅助函数：上色特定区域
-def color_region(canvas, region_points, original_image, edges, coloring_speed_factor, coloring_ratio):
-    mask = np.zeros_like(edges)
-    region_array = np.array(region_points, np.int32)
-    cv2.fillConvexPoly(mask, region_array, 255)
-
-    # 获取非边缘点
-    non_edge_points = np.column_stack(np.where((edges == 0) & (mask == 255)))
-    np.random.shuffle(non_edge_points)  # Shuffle to randomize order of coloring
-
-    # 选择指定比例的点进行上色
-    num_points_to_color = int(len(non_edge_points) * coloring_ratio)
-    points_to_color = non_edge_points[:num_points_to_color]
-
-    # 每次上色的速度加快
-    points_per_frame_color = points_per_frame_face * coloring_speed_factor
-
-    # 上色
-    points_colored = 0
-    total_points = len(points_to_color)
-    while points_colored < len(points_to_color):
-        frame_points = min(points_per_frame_color, len(points_to_color) - points_colored)
-        for i in range(frame_points):
-            point = points_to_color[points_colored + i]
-            y, x = point
-            canvas[y, x] = original_image[y, x]
-        video_writer.write(canvas)
-        points_colored += frame_points
-        progress = (points_colored / total_points) * 100
-        print(f"上色进度: {progress:.2f}% ({points_colored}/{total_points})")
-
-
 # 主程序
 if __name__ == "__main__":
     # 1. 绘制轮廓
-    draw_contour(canvas, edges, contour_ratio, points_per_frame_face)
+    remaining_points = draw_contour(canvas, edges, contour_ratio, points_per_frame_face)
 
     # 2. 绘制详细部分
-    draw_detailed(canvas, edges, face_landmarks, drawing_ratio, points_per_frame_face, points_per_frame_non_face)
+    draw_detailed(canvas, edges, face_landmarks, remaining_points, drawing_ratio, points_per_frame_face,
+                  points_per_frame_non_face)
 
     # 3. 上色
     color_regions(canvas, face_landmarks, original_image, edges, coloring_ratio, points_per_frame_face,
