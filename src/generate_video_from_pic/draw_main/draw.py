@@ -70,9 +70,7 @@ def generate_diancai(image_path, vodeo_path):
 
     # 打乱这些像素的顺序，模拟随机绘制的过程
     np.random.shuffle(non_zero_pixels)
-
-
-
+    
     for i in range(0, len(non_zero_pixels), step_size):
         # 获取当前步要绘制的像素位置
         for pixel in non_zero_pixels[i:i + step_size]:
